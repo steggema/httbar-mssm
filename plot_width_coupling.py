@@ -5,7 +5,7 @@ f_hmssm = TFile('data/hMSSM_13TeV.root')
 h_width_A = f_hmssm.Get('width_A')
 h_br_A_tt = f_hmssm.Get('br_A_tt') # to calculate partial width
 
-mass = 750.
+mass = 600.
 
 bin_mass = h_width_A.FindBin(mass)
 
@@ -29,7 +29,7 @@ for i in xrange(n_points):
 # Points/lines for simulated samples
 p_5percent = TMarker(1., 0.05*mass, 1)
 p_10percent = TMarker(1., 0.1*mass, 2)
-p_25percent = TMarker(1., 0.25*mass, 3)
+p_25percent = TMarker(1., 0.025*mass, 3)
 
 def findX(graph, y):
     '''Find x value, assume monotonously decreasing y'''
@@ -56,7 +56,7 @@ def findX(graph, y):
 
 l_5percent = TLine(0., 0.05*mass, findX(g_partial_width, 0.05*mass), 0.05*mass)
 l_10percent = TLine(0., 0.1*mass, findX(g_partial_width, 0.1*mass), 0.1*mass)
-l_25percent = TLine(0., 0.25*mass, findX(g_partial_width, 0.25*mass), 0.25*mass)
+l_25percent = TLine(0., 0.025*mass, findX(g_partial_width, 0.025*mass), 0.025*mass)
 
 # The drawing and cosmetics part
 c = TCanvas()
@@ -90,7 +90,14 @@ l_25percent.Draw()
 
 g_width.GetXaxis().SetTitle('1/tan(#beta)^{2}') #  #prop coupling^{2}
 g_width.GetYaxis().SetTitle('Width (GeV)')
+g_width.GetYaxis().SetTitleSize(0.05)
+g_width.GetYaxis().SetLabelSize(0.05)
+g_width.GetYaxis().SetTitleOffset(0.8)
 g_width.GetYaxis().SetRangeUser(0., mass*0.12)
+
+g_width.GetXaxis().SetTitleSize(0.05)
+g_width.GetXaxis().SetLabelSize(0.05)
+g_width.GetXaxis().SetTitleOffset(0.88)
 
 g_partial_width.SetLineColor(4)
 g_partial_width.SetLineWidth(3003)
@@ -106,6 +113,7 @@ g_partial_width_excl.SetLineWidth(0)
 g_partial_width_excl.SetLineColor(0)
 
 legend.AddEntry(g_partial_width_excl, 'Forbidden', 'f')
+legend.AddEntry(p_25percent, 'Sample (2.5% width)', 'p')
 legend.AddEntry(p_5percent, 'Sample (5% width)', 'p')
 legend.AddEntry(p_10percent, 'Sample (10% width)', 'p')
 legend.SetBorderSize(0)
